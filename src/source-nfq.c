@@ -474,6 +474,7 @@ static int NFQSetupPkt (Packet *p, struct nfq_q_handle *qh, void *data)
 
 static void NFQReleasePacket(Packet *p)
 {
+    BUG_ON(p->pkt_src == PKT_SRC_WIRE);
     if (unlikely(!p->nfq_v.verdicted)) {
         PACKET_UPDATE_ACTION(p, ACTION_DROP);
         NFQSetVerdict(p);

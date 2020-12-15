@@ -823,6 +823,7 @@ cleanup:
 #ifdef HAVE_TPACKET_V3
 static void AFPReleasePacketV3(Packet *p)
 {
+    BUG_ON(p->pkt_src == PKT_SRC_WIRE);
     /* Need to be in copy mode and need to detect early release
        where Ethernet header could not be set (and pseudo packet) */
     if ((p->afp_v.copy_mode != AFP_COPY_MODE_NONE) && !PKT_IS_PSEUDOPKT(p)) {
@@ -834,6 +835,7 @@ static void AFPReleasePacketV3(Packet *p)
 
 static void AFPReleasePacket(Packet *p)
 {
+    BUG_ON(p->pkt_src == PKT_SRC_WIRE);
     AFPReleaseDataFromRing(p);
     PacketFreeOrRelease(p);
 }
